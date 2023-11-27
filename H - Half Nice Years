@@ -1,0 +1,96 @@
+#include <bits/stdc++.h>
+#define all(v) v.begin(), v.end()
+#define rall(v) v.rbegin(), v.rend()
+#define int long long
+typedef unsigned long long ull;
+typedef long double ld;
+using namespace std;
+int doo2(int a,int b){
+    int ans = -1;
+    if(b-a<=1000)
+    {
+        while (b >= a)
+        {
+            int sz = log10((ld)b) + 1;
+            int p = pow(10, sz / 2 + (sz % 2));
+            int c = b % p;
+            int d = b / p;
+            if(!d||!c)
+            {
+                b--;
+                continue;
+            }
+            int gcd = __gcd(c,d);
+            if(gcd>1)
+            {
+                ans = d*p+c;
+                break;
+            }
+            b--;
+        }
+    }
+    else
+    {
+        int sz = log10((ld)b) + 1, mx=-1;
+        int p = pow(10, sz / 2 + (sz % 2));
+        int c = b % p;
+        int d = b / p;
+        if(__gcd(c,d)>1&&c){return b;}
+        mx = max(mx,d*p+((c/d)*d));
+        if(c)
+        {
+            //cout<<mx<<endl;
+            for (int i = 2; i <= sqrt(d); ++i)
+            {
+                if (d % i == 0)
+                {
+                    //cout<<i<<endl;
+                    if(c>=i)mx = max(mx,d*p+((c/i)*i));
+                    if (i != d/ i && (d/i)<=c)
+                    {
+                        mx = max(mx,d*p+((c/(d/i))*(d/i)));
+                    }
+                    //cout<<mx<<endl;
+                }
+            }
+        }
+        if (mx % (int)(round(pow(10, (sz/2)+(sz%2)))) == 0)
+        {
+            d--;
+            if(d%2)return doo2(a,d*p+pow(10,sz/2 + sz%2)-1);
+            else{c = pow(10,sz/2 + sz%2)-1;
+            if(__gcd(d,c)>1)mx = d*p+c;
+            else
+            {
+                c--;
+                mx=d*p+c;
+            }}
+        }
+        ans=mx;
+    }
+    return((ans==-1 || ans<a)?-1:ans);
+}
+void Just_Do_it()
+{
+    int a,b;cin>>a>>b;
+    int ans = doo2(a,b);
+    if(ans==-1)cout<<"impossible"<<endl;
+    else cout<<ans<<endl;
+}
+
+signed main()
+{
+    freopen("halfnice.in", "r", stdin);
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+    int t, inc = 1;
+    cin >> t;
+    while (t--)
+    {
+        cout << "Case " << inc << ": ";
+        Just_Do_it();
+        inc++;
+    }
+    return 0;
+}

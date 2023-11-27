@@ -1,0 +1,154 @@
+#include <bits/stdc++.h>
+#define all(v) v.begin(), v.end()
+#define rall(v) v.rbegin(), v.rend()
+#define int long long
+typedef unsigned long long ull;
+typedef long double ld;
+using namespace std;
+map<int,vector<int>>adj;
+map<pair<int,int>,int>wi;
+map<int,bool>vi;
+int n1=0, n2=0, n3=0, ans=0;
+bool f = 0, g=0, h=0;
+int fac(int n)
+{
+    int cnt=0;
+    if(n==1)return 0;
+    while (n % 2 == 0)
+    {
+        cnt++;
+        n = n / 2;
+    }
+    for (int i = 3; i * i <= n; i = i + 2)
+    {
+        while (n % i == 0)
+        {
+            cnt++;
+            n = n / i;
+        }
+    }
+    if (n > 2)
+    {
+        cnt++;
+    }
+    return cnt;
+}
+void dfs(int start,int n1,int n2, int n3, bool f, bool g,bool h)
+{
+    for(auto i : adj[start])
+    {
+        if(!vi[i])
+        {
+            int c = wi[{start,i}];
+            int cnt = fac(c);
+
+            if(cnt==0)
+            {
+                if(!h){
+                    if(!f&&!g){
+                        n1++;n2=0;n3=0;
+                    }
+                    if(f&&!g){
+                        n2++;n3=0;
+                    }
+                    if((f&&g)){
+                        n3++;ans+=n1;
+                    }
+                }
+                else{
+                    n3++;ans+=n1;
+                }
+            }
+            else if(cnt==1)
+            {
+                if(!h)
+                {
+                    if(!f&&!g){
+                        n1++;f=1;
+                    }
+                    else if(f&&!g){
+                        g=1;n3++;ans+=n1;
+                    }
+                    else if(f&&g){
+                        n1=n2+1;n2=n3-1;
+                        n3=1;ans+=n1;
+                    }
+                }
+                else{
+                    f=1;g=0;h=0;
+                    n1=n3+1;
+                    n2=0;n3=0;
+                }
+            }
+            else if(cnt==2){
+                if(!h){
+                    if(!f&&!g){
+                        ans+=n1+1;n1++;h=1;n2=0;n3=0;f=0;g=0;
+                    }
+                    if(f&&!g){
+                        ans+=n2+1;n1=n2+1;h=1;n2=0;f=0;g=0;n3=0;
+                    }
+                    if((f&&g)){
+                        ans+=n3;n1=n3;h=1;n3=0;n2=0;f=0;h=0;
+                    }
+               }
+               else{
+                    ans+=n3+1;h=1;f=0;g=0;n1=n3+1;n2=0;n3=0;
+               }
+
+            }
+            else{
+                n1=0;n2=0;n3=0;f=0;h=0;g=0;
+            }
+            vi[i]=1;
+            dfs(i,n1,n2,n3,f,g,h);
+        }
+    }
+}
+void Just_Do_it()
+{
+    int n;
+    cin>>n;
+    adj.clear();
+    wi.clear();
+    vi.clear();
+    ans =0;
+    for(int i=0; i<n-1; i++)
+    {
+        int u,v,c;
+        cin>>u>>v>>c;
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+        wi[ {u,v}] = c;
+        wi[ {v,u}] = c;
+    }
+    int start;
+    for(auto [i,k]:adj)
+    {
+        if(k.size()==1)
+        {
+            start=i;
+            break;
+        }
+    }
+    vi[start]=1;
+    dfs(start,0,0,0,0,0,0);
+    cout<<ans<<endl;
+}
+
+signed main()
+{
+    freopen("evaluations.in", "r", stdin);
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+    int t, inc = 1;
+    cin >> t;
+    while (t--)
+    {
+        cout << "Case " << inc << ": ";
+        Just_Do_it();
+        inc++;
+    }
+    return 0;
+}

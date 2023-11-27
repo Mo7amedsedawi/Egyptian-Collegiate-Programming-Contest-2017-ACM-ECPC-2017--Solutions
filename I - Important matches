@@ -1,0 +1,55 @@
+#include <bits/stdc++.h>
+#define all(v) v.begin(), v.end()
+#define rall(v) v.rbegin(), v.rend()
+#define int long long
+typedef unsigned long long ull;
+typedef long double ld;
+using namespace std;
+void Just_Do_it()
+{
+    int n, m, q;
+    cin >> n >> m >> q;
+    vector<vector<int>> a(n, vector<int>(m));
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < m; j++)
+        {
+            cin >> a[i][j];
+        }
+    }
+    while (q--)
+    {
+        int aa, b, c, d;
+        vector<int> k;
+        cin >> aa >> b >> c >> d;
+        aa--;
+        b--;
+        c--;
+        d--;
+        for (int i = aa; i <= c; i++)
+        {
+            for (int j = b; j <= d; j++)
+            {
+                k.push_back(a[i][j]);
+            }
+        }
+        sort(all(k));
+        cout << (k.size() % 2 ? k[(k.size() - 1) / 2] : k[k.size() / 2]) << endl;
+    }
+}
+signed main()
+{
+    freopen("important.in", "r", stdin);
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+    int t, inc = 1;
+    cin >> t;
+    while (t--)
+    {
+        cout << "Case " << inc << ": ";
+        Just_Do_it();
+        inc++;
+    }
+    return 0;
+}

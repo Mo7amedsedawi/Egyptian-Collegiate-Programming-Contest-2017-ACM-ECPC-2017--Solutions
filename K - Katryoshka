@@ -1,0 +1,36 @@
+#include <bits/stdc++.h>
+#define all(v) v.begin(), v.end()
+#define rall(v) v.rbegin(), v.rend()
+#define int long long
+typedef unsigned long long ull;
+typedef long double ld;
+using namespace std;
+void Just_Do_it()
+{
+    int e, m, b;
+    cin >> e >> m >> b;
+    if (e >= m)
+    {
+        cout << min(m + ((e - m) / 2), b) << endl;
+    }
+    else
+    {
+        cout << min(e, b) << endl;
+    }
+}
+signed main()
+{
+    freopen("katryoshka.in", "r", stdin);
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+    int t, inc = 1;
+    cin >> t;
+    while (t--)
+    {
+        cout << "Case " << inc << ": ";
+        Just_Do_it();
+        inc++;
+    }
+    return 0;
+}

@@ -1,0 +1,15 @@
+from math import *
+with open("glorious.in", "r") as file:
+    t = int(file.readline().strip())
+    inc = 1
+    for _ in range(t):
+        q, r, n = map(int, file.readline().strip().split())
+        ans = 0
+        for i in range(q):
+            a = 2 * r * tan(pi / n)
+            c = pi * r * r
+            p = n * r * a / 2
+            ans += (p - c)
+            r = sqrt(a * a / 4 + r * r)
+        print(f"Case {inc}: {ans:.5f}")
+        inc += 1
